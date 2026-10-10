@@ -24,6 +24,15 @@ jobs:
       - name: Gradle build
         run: ./gradlew build
 
+      - name: List build output
+        run: |
+          echo "=== Root build/libs ==="
+          ls -R build/libs 2>/dev/null || echo "root build/libs not found"
+          echo "=== All build/libs directories ==="
+          find . -type d -name "libs" -path "*/build/*" 2>/dev/null
+          echo "=== All JAR files ==="
+          find . -name "*.jar" -type f 2>/dev/null
+
       - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
