@@ -1,6 +1,7 @@
 name: manual-artifact
 
 on: [ workflow_dispatch ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,21 +22,14 @@ jobs:
           cache-read-only: false
           cache-cleanup: always
 
-      - name: Gradle build
-        run: ./gradlew build
-
-      - name: List build output
-        run: |
-          echo "=== Root build/libs ==="
-          ls -R build/libs 2>/dev/null || echo "root build/libs not found"
-          echo "=== All build/libs directories ==="
-          find . -type d -name "libs" -path "*/build/*" 2>/dev/null
-          echo "=== All JAR files ==="
-          find . -name "*.jar" -type f 2>/dev/null
+      - name: Build 1.21.1-fabric
+        run: ./gradlew :versions:1.21.1-fabric:build
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
-          name: voxy-artifacts
-          path: build/libs/*.jar
-          archive: false
+          name: voxy-1.21.1-fabric
+          path: |
+            versions/1.21.1-fabric/build/libs/*.jar
+            !versions/1.21.1-fabric/build/libs/*-sources.jar
+          if-no-files-found: error
