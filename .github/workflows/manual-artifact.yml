@@ -23,7 +23,7 @@ jobs:
           cache-cleanup: always
 
       - name: Build 1.21.1-fabric
-        run: ./gradlew :versions:1.21.1-fabric:build
+        run: ./gradlew :1.21.1-fabric:build
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
